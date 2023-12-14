@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:module_1/food_data_model.dart';
+import 'package:module_1/Models/food_data_model.dart';
 
 class FoodProvider {
   Future<List<FoodItem>> fetchData(String query) async {

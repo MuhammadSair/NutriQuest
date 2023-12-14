@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:get/get_instance/get_instance.dart';
-import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:module_1/Screens/food_log.dart';
+import 'package:module_1/Screens/home_screen.dart';
 import 'package:module_1/helpers/helper_functions.dart';
-import 'package:module_1/home_page.dart';
 import 'package:module_1/utils/constants/colors.dart';
+import 'package:module_1/utils/doghnut.dart';
 
 class NavigationMenu extends StatelessWidget {
   const NavigationMenu({super.key});
@@ -45,10 +44,8 @@ class NavigationMenu extends StatelessWidget {
 class NavigationController extends GetxController {
   final Rx<int> selectedIndex = 0.obs;
   final screens = [
-    const HomePage(),
-    Container(
-      color: Colors.green,
-    ),
+    const HomeScreen(),
+    const FoodLog(),
     Container(
       color: Colors.blue,
     ),

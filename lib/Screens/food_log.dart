@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:module_1/food_data.dart';
-import 'package:module_1/food_data_model.dart';
+import 'package:module_1/provider/food_data_provider.dart';
+import 'package:module_1/Models/food_data_model.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+class FoodLog extends StatefulWidget {
+  const FoodLog({super.key});
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<FoodLog> createState() => _FoodLogState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _FoodLogState extends State<FoodLog> {
   final FoodProvider foodProvider = FoodProvider();
   final TextEditingController _foodQueryController = TextEditingController();
   String query = "";

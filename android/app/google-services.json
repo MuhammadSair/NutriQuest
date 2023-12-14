@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "812728731513",
+    "project_id": "nutrition-calcuator",
+    "storage_bucket": "nutrition-calcuator.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:812728731513:android:ca2ce5ee038de014bed1a8",
+        "android_client_info": {
+          "package_name": "com.example.module_1"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBlzl7JDrbgVinT_0eAMOSACaGmgaBEtnI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
