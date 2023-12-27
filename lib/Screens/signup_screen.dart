@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:module_1/navigation_menu.dart';
 
@@ -63,11 +64,13 @@ class SignUpScreen extends StatelessWidget {
                         onPressed: () {
                           var username = _usenameTextController.text.trim();
                           var email = _emailTextController.text.trim();
+                          var password = _passwordTextController.text.trim();
                           // var password = _passwordTextController.text.trim();
                           FirebaseAuth.instance
                               .createUserWithEmailAndPassword(
-                                  email: _emailTextController.text,
-                                  password: _emailTextController.text)
+                            email: email,
+                            password: password,
+                          )
                               .then((value) {
                             // print("Created New Account");
                             FirebaseFirestore.instance
@@ -77,13 +80,9 @@ class SignUpScreen extends StatelessWidget {
                               'username': username,
                               'email': email,
                               'dateCreated': DateTime.now(),
-                              "userId": userId?.uid,
+                              "userId": userId!.uid,
                             });
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        const NavigationMenu()));
+                            Get.to(() => const NavigationMenu());
                           }).onError((error, stackTrace) {
                             // print("Error ${error.toString()}");
                           });

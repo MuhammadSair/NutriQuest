@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:module_1/utils/doghnut.dart';
+import 'package:module_1/utils/Calorie_donut.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:module_1/utils/carbohydrates_donut.dart';
+import 'package:module_1/utils/fats_donut.dart';
+import 'package:module_1/utils/protein_donut.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -26,7 +29,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   .headlineMedium!
                   .apply(color: Colors.black),
             ),
-            DonutChart(),
+            CalorieDonutChart(),
             Text(
               "Macros",
               textAlign: TextAlign.left,
@@ -37,9 +40,9 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             CarouselSlider(
               items: [
-                SizedBox(width: 300, child: DonutChart()),
-                SizedBox(width: 300, child: DonutChart()),
-                SizedBox(width: 300, child: DonutChart()),
+                SizedBox(width: 300, child: CarbsDonutChart()),
+                SizedBox(width: 300, child: ProteinsDonutChart()),
+                SizedBox(width: 300, child: FatsDonutChart()),
               ],
               options: CarouselOptions(
                 height: 200, // Adjust the height as needed

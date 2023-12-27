@@ -5,7 +5,6 @@ import 'package:module_1/Screens/food_log.dart';
 import 'package:module_1/Screens/home_screen.dart';
 import 'package:module_1/helpers/helper_functions.dart';
 import 'package:module_1/utils/constants/colors.dart';
-import 'package:module_1/utils/doghnut.dart';
 
 class NavigationMenu extends StatelessWidget {
   const NavigationMenu({super.key});
