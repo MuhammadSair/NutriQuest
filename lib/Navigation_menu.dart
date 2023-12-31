@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:module_1/Screens/food_log.dart';
+// import 'package:module_1/Screens/food_log.dart';
 import 'package:module_1/Screens/home_screen.dart';
+import 'package:module_1/Screens/macros_log.dart';
 import 'package:module_1/helpers/helper_functions.dart';
 import 'package:module_1/utils/constants/colors.dart';
 
@@ -28,9 +29,9 @@ class NavigationMenu extends StatelessWidget {
           destinations: const [
             NavigationDestination(icon: Icon(Icons.dashboard), label: "Home"),
             NavigationDestination(
-                icon: Icon(Icons.done_outline), label: "Food Log"),
+                icon: Icon(Icons.done_outline), label: "Macros Log"),
             NavigationDestination(
-                icon: Icon(Iconsax.message), label: "Newsfeed"),
+                icon: Icon(Iconsax.message), label: "Recipes "),
             NavigationDestination(icon: Icon(Icons.person), label: "Profile"),
           ],
         ),
@@ -49,7 +50,7 @@ class NavigationController extends GetxController {
       color: Colors.blue,
     ),
     Container(
-      color: Colors.yellow,
+      color: Colors.green,
     )
   ];
 }

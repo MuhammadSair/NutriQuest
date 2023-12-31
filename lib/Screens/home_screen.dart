@@ -16,13 +16,30 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(30.0),
+        child: Container(
+          color: Colors.blueGrey, // Set the background color here
+          child: AppBar(
+            title: const Text(
+              "Today",
+              textAlign: TextAlign.center,
+              style: TextStyle(color: Colors.white), // Set text color if needed
+            ),
+            centerTitle: true,
+            automaticallyImplyLeading: false,
+            toolbarHeight: 20.0,
+            backgroundColor: Colors
+                .transparent, // Set to transparent to see the Container color
+          ),
+        ),
+      ),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              "Today",
+              "Results",
               textAlign: TextAlign.left,
               style: Theme.of(context)
                   .textTheme

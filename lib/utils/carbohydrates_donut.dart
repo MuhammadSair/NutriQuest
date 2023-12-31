@@ -59,6 +59,18 @@ class _CarbsDonutChartState extends State<CarbsDonutChart> {
         height: 150, // Adjust height as needed
         child: Stack(
           children: [
+            Column(
+              children: [
+                Text(
+                  "Current Carbs=",
+                ),
+                SizedBox(
+                  height: 5,
+                ),
+                // Text("Base - Total="),
+                // Icon(Icons.emoji_food_beverage_outlined)
+              ],
+            ),
             PieChart(
               PieChartData(
                 startDegreeOffset: 270,

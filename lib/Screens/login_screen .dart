@@ -98,6 +98,17 @@ class LoginScreen extends StatelessWidget {
                           Get.to(const SignUpScreen());
                         },
                         child: Text("Create account"))),
+                const SizedBox(
+                  height: 16.0,
+                ),
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                      onPressed: () {
+                        Get.to(const NavigationMenu());
+                      },
+                      child: Text("Continue")),
+                )
               ],
             ))
           ]),

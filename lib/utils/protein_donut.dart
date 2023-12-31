@@ -63,6 +63,16 @@ class _ProteinsDonutChartState extends State<ProteinsDonutChart> {
         height: 150, // Adjust height as needed
         child: Stack(
           children: [
+            Column(
+              children: [
+                Text("Current Proteins="),
+                SizedBox(
+                  height: 5,
+                ),
+                // Text("Base - Total="),
+                // Icon(Icons.emoji_food_beverage_outlined)
+              ],
+            ),
             PieChart(
               PieChartData(
                 startDegreeOffset: 270,

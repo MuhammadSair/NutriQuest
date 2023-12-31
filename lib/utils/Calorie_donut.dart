@@ -2,7 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_any_logo/flutter_logo.dart';
 import 'package:intl/intl.dart';
+// import 'package:flutter_any_logo/flutter_any_logo.dart';
 // import 'package:module_1/Screens/food_log.dart';
 
 class CalorieDonutChart extends StatefulWidget {
@@ -73,6 +75,16 @@ class _CalorieDonutChartState extends State<CalorieDonutChart> {
         height: 200, // Adjust height as needed
         child: Stack(
           children: [
+            Column(
+              children: [
+                Text("Current Calories="),
+                SizedBox(
+                  height: 5,
+                ),
+                Text("Base - Total="),
+                Icon(Icons.emoji_food_beverage_outlined)
+              ],
+            ),
             PieChart(
               PieChartData(
                 startDegreeOffset: 270,

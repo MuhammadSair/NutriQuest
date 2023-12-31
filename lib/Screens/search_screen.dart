@@ -12,6 +12,14 @@ class SearchScreen extends StatefulWidget {
 }
 
 class _SearchScreenState extends State<SearchScreen> {
+  bool _mounted = true;
+
+  @override
+  void dispose() {
+    _mounted = false;
+    super.dispose();
+  }
+
   List<String> suggestions = [];
 
   final FoodProvider foodProvider = FoodProvider();
@@ -43,7 +51,7 @@ class _SearchScreenState extends State<SearchScreen> {
                 setState(() {
                   query = value;
                 });
-                _fetchSuggestions();
+                // _fetchSuggestions();
               },
               onSubmitted: (value) {
                 setState(() {
@@ -73,7 +81,7 @@ class _SearchScreenState extends State<SearchScreen> {
                 } else if (snapshot.hasError) {
                   return Center(child: Text('Error: ${snapshot.error}'));
                 } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                  return const Center(child: Text('No data available.'));
+                  return const Center(child: Text('Add to Your Stomach :)'));
                 } else {
                   return ListView.builder(
                     itemCount: snapshot.data!.length,
@@ -108,17 +116,17 @@ class _SearchScreenState extends State<SearchScreen> {
     );
   }
 
-  void _fetchSuggestions() async {
-    try {
-      List<FoodItem> suggestionItems = await foodProvider.fetchData(query);
+  // void _fetchSuggestions() async {
+  //   try {
+  //     List<FoodItem> suggestionItems = await foodProvider.fetchData(query);
 
-      setState(() {
-        suggestions = suggestionItems.map((item) => item.name).toList();
-      });
-    } catch (error) {
-      print('Error fetching suggestions: $error');
-    }
-  }
+  //     setState(() {
+  //       suggestions = suggestionItems.map((item) => item.name).toList();
+  //     });
+  //   } catch (error) {
+  //     print('Error fetching suggestions: $error');
+  //   }
+  // }
 
   Future<void> _updateFirestore() async {
     // Get the reference to the document
@@ -154,11 +162,17 @@ class _SearchScreenState extends State<SearchScreen> {
 
     // Set the updated data back to Firestore
     await nutritionDocRef.set(existingData);
-    setState(() {
-      foodCalorie = existingData['Calories'];
-      protein = existingData['Proteins'];
-      fats = existingData['Fats'];
-      carbohydrates = existingData['Carbs'];
-    });
+    if (_mounted) {
+      setState(() {
+        foodCalorie = existingData['Calories'];
+        protein = existingData['Proteins'];
+        fats = existingData['Fats'];
+        carbohydrates = existingData['Carbs'];
+      });
+    } else
+      (error) {
+        // Handle errors
+        print('Error updating Firestore: $error');
+      };
   }
 }
