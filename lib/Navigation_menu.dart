@@ -4,6 +4,7 @@ import 'package:iconsax/iconsax.dart';
 // import 'package:module_1/Screens/food_log.dart';
 import 'package:module_1/Screens/home_screen.dart';
 import 'package:module_1/Screens/macros_log.dart';
+import 'package:module_1/Screens/recipes/recipe_home.dart';
 import 'package:module_1/helpers/helper_functions.dart';
 import 'package:module_1/utils/constants/colors.dart';
 
@@ -46,9 +47,7 @@ class NavigationController extends GetxController {
   final screens = [
     const HomeScreen(),
     const FoodLog(),
-    Container(
-      color: Colors.blue,
-    ),
+    RecipeHome(),
     Container(
       color: Colors.green,
     )

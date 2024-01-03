@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:module_1/Screens/recipes/consent/colors.dart';
+import 'package:module_1/Screens/recipes/sidebar.dart';
 import 'package:module_1/utils/Calorie_donut.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:module_1/utils/carbohydrates_donut.dart';
@@ -16,21 +18,16 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: Size.fromHeight(30.0),
-        child: Container(
-          color: Colors.blueGrey, // Set the background color here
-          child: AppBar(
-            title: const Text(
-              "Today",
-              textAlign: TextAlign.center,
-              style: TextStyle(color: Colors.white), // Set text color if needed
-            ),
-            centerTitle: true,
-            automaticallyImplyLeading: false,
-            toolbarHeight: 20.0,
-            backgroundColor: Colors
-                .transparent, // Set to transparent to see the Container color
+      backgroundColor: background,
+      drawer: Navbar(),
+      appBar: AppBar(
+        title: Text("Today"),
+        centerTitle: true,
+        backgroundColor: maincolor,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+            bottomLeft: Radius.circular(25),
+            bottomRight: Radius.circular(25),
           ),
         ),
       ),

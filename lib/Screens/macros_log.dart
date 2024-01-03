@@ -3,6 +3,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:module_1/Screens/recipes/consent/colors.dart';
+import 'package:module_1/Screens/recipes/sidebar.dart';
 import 'package:module_1/Screens/search_screen.dart';
 
 class FoodLog extends StatefulWidget {
@@ -54,32 +56,30 @@ class _FoodLogState extends State<FoodLog> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: Size.fromHeight(30.0),
-        child: Container(
-          color: Colors.blueGrey, // Set the background color here
-          child: AppBar(
-            title: const Text(
-              "Today",
-              textAlign: TextAlign.center,
-              style: TextStyle(color: Colors.white), // Set text color if needed
-            ),
-            centerTitle: true,
-            automaticallyImplyLeading: false,
-            toolbarHeight: 20.0,
-            backgroundColor: Colors
-                .transparent, // Set to transparent to see the Container color
+      backgroundColor: background,
+      drawer: Navbar(),
+      appBar: AppBar(
+        title: Text("Today"),
+        centerTitle: true,
+        backgroundColor: maincolor,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+            bottomLeft: Radius.circular(25),
+            bottomRight: Radius.circular(25),
           ),
         ),
       ),
       body: SingleChildScrollView(
         child: Stack(
           children: [
+            // SizedBox(
+            //   height: 20.0,
+            // ),
             // Background with clipper
             ClipPath(
               clipper: MyCustomClipper1(),
               child: Container(
-                color: Colors.blue,
+                color: Colors.grey,
                 height: 250,
                 child: Column(
                   // mainAxisAlignment: MainAxisAlignment.center,

@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_any_logo/flutter_logo.dart';
 import 'package:intl/intl.dart';
 // import 'package:flutter_any_logo/flutter_any_logo.dart';
 // import 'package:module_1/Screens/food_log.dart';

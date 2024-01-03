@@ -11,7 +11,6 @@ class BaseProvider {
     String activityLevel,
   ) async {
     const String url = 'https://fitness-calculator.p.rapidapi.com/dailycalorie';
-    // https://fitness-calculator.p.rapidapi.com/dailycalorie?age=25&gender=male&height=180&weight=70&activitylevel=level_1
 
     Map<String, String> queryParams = {
       'age': age,
