@@ -23,6 +23,7 @@ dependencies:
   flutter_any_logo: ^1.1.1
   provider: ^6.1.1
   google_fonts: ^4.0.1
+  animated_toggle_switch: ^0.6.2
 
 dev_dependencies:
   flutter_test:
@@ -44,5 +45,6 @@ flutter:
     - assets/icons/payment_methods/
     - assets/images/on_boarding_images/
     - images/
+    - assets/img/
 
   #--------------- LOCAL FONTS ------------------#

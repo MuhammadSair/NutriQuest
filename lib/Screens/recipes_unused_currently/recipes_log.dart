@@ -1,7 +1,8 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:module_1/Screens/recipe_detail.dart';
+
+import 'package:module_1/Screens/recipes_unused_currently/recipe_detail.dart';
 
 class Recipe {
   String id;
