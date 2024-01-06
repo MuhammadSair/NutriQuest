@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:module_1/Models/food_data_model.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class FoodProvider {
   Future<List<FoodItem>> fetchData(String query) async {
@@ -36,6 +37,22 @@ class FoodProvider {
     } catch (error) {
       print('Error: $error');
       return [];
+    }
+  }
+
+  Future<void> _saveDataToSharedPreferences(List<dynamic> data) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('foodData', json.encode(data));
+  }
+
+  static Future<List<dynamic>> getDataFromSharedPreferences() async {
+    final prefs = await SharedPreferences.getInstance();
+    final jsonData = prefs.getString('foodData');
+
+    if (jsonData != null) {
+      return json.decode(jsonData);
+    } else {
+      throw Exception('No data found in shared preferences');
     }
   }
 }

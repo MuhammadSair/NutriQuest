@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -9,15 +10,12 @@ import 'package:intl/intl.dart';
 class CalorieDonutChart extends StatefulWidget {
   const CalorieDonutChart({super.key});
 
-  // final dynamic protein;
-  // final dynamic carbohydrates;
-  // final dynamic fats;
-
   @override
   _CalorieDonutChartState createState() => _CalorieDonutChartState();
 }
 
 class _CalorieDonutChartState extends State<CalorieDonutChart> {
+  User? currentUser = FirebaseAuth.instance.currentUser;
   @override
   void initState() {
     super.initState();
@@ -25,23 +23,24 @@ class _CalorieDonutChartState extends State<CalorieDonutChart> {
     _fetchCalorieData();
   }
 
-  // @override
-  // void setState(VoidCallback fn) {
-  //   super.setState(fn);
-  //   _fetchCalorieData();
-  // }
+  @override
+  void dispose() {
+    super.dispose();
+    _fetchCalorieData();
+  }
 
   // FoodLog foodLogInstance = FoodLog();
   late double foodCalorie = 0;
   var base = 2500;
+
   Future<void> _fetchCalorieData() async {
     // Assuming you have a collection named 'Nutrition' in Firestore
     // and each document contains a 'Calories' field
     try {
       QuerySnapshot querySnapshot = await FirebaseFirestore.instance
           .collection('Nutrition')
-          // .where('userId',
-          //     isEqualTo: 'user?.uid') // Adjust this query accordingly
+          .where('userId',
+              isEqualTo: currentUser!.uid) // Adjust this query accordingly
           .get();
 
       if (querySnapshot.docs.isNotEmpty) {

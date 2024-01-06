@@ -3,11 +3,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:module_1/navigation_menu.dart';
+import 'package:module_1/navigation.dart';
 
 class SignUpScreen extends StatelessWidget {
-  const SignUpScreen({super.key});
-
   @override
   Widget build(BuildContext context) {
     final TextEditingController _emailTextController = TextEditingController();
@@ -82,7 +80,7 @@ class SignUpScreen extends StatelessWidget {
                               'dateCreated': DateTime.now(),
                               "userId": userId!.uid,
                             });
-                            Get.to(() => const NavigationMenu());
+                            Get.to(() => const Navigation());
                           }).onError((error, stackTrace) {
                             // print("Error ${error.toString()}");
                           });

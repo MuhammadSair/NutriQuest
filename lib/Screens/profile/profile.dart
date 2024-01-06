@@ -1,10 +1,14 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:module_1/Screens/Logins/login_screen%20.dart';
+
 import 'package:module_1/Screens/profile/color_extension.dart';
 import 'package:module_1/Screens/profile/roundbutton.dart';
 import 'package:module_1/Screens/profile/setting_row.dart';
 import 'package:module_1/Screens/profile/title_subtitle_cell.dart';
 
 import 'package:animated_toggle_switch/animated_toggle_switch.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfileView extends StatefulWidget {
   const ProfileView({super.key});
@@ -15,6 +19,7 @@ class ProfileView extends StatefulWidget {
 
 class _ProfileViewState extends State<ProfileView> {
   bool positive = false;
+  FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
   List accountArr = [
     {"image": "assets/img/p_personal.png", "name": "Personal Data", "tag": "1"},
@@ -34,7 +39,7 @@ class _ProfileViewState extends State<ProfileView> {
   List otherArr = [
     {"image": "assets/img/p_contact.png", "name": "Contact Us", "tag": "5"},
     {"image": "assets/img/p_privacy.png", "name": "Privacy Policy", "tag": "6"},
-    {"image": "assets/img/p_setting.png", "name": "Setting", "tag": "7"},
+    {"image": "assets/img/p_setting.png", "name": "Logout", "tag": "7"},
   ];
   @override
   Widget build(BuildContext context) {
@@ -347,7 +352,9 @@ class _ProfileViewState extends State<ProfileView> {
                         return SettingRow(
                           icon: iObj["image"].toString(),
                           title: iObj["name"].toString(),
-                          onPressed: () {},
+                          onPressed: () {
+                            logout();
+                          },
                         );
                       },
                     )
@@ -359,5 +366,14 @@ class _ProfileViewState extends State<ProfileView> {
         ),
       ),
     );
+  }
+
+  Future<void> logout() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setBool("isLoggedIn", false);
+    await _firebaseAuth.signOut().then((value) => Navigator.of(context)
+        .pushAndRemoveUntil(
+            MaterialPageRoute(builder: (context) => LoginScreen()),
+            (route) => false));
   }
 }

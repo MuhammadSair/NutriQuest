@@ -111,13 +111,6 @@ class _BaseFinderState extends State<BaseFinder> {
               } else if (snapshot.data == null) {
                 return const Center(child: Text('No data available.'));
               } else {
-                // FitnessCalculatorResponse responseData = snapshot.data!;
-
-                // // Access the data within the responseData object
-                // int bmr = responseData.data.BMR;
-                // int maintainWeightCalory =
-                //     responseData.data.goals.maintainWeight;
-
                 return ListView.builder(
                   itemCount: snapshot.data!.length,
                   itemBuilder: (context, index) {

@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:module_1/Screens/recipes/consent/colors.dart';
 
 class Navbar extends StatelessWidget {
   Navbar({
@@ -16,7 +17,7 @@ class Navbar extends StatelessWidget {
         children: [
           UserAccountsDrawerHeader(
             accountName: Text(
-              'Welcome To Mobile Nutrition',
+              'Welcome To Nutri Quest',
               style: GoogleFonts.bebasNeue(
                 color: Colors.white,
                 fontSize: 18,
@@ -42,14 +43,7 @@ class Navbar extends StatelessWidget {
                 ),
               ),
             ),
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage(
-                  'images/backs.jpg',
-                ),
-                fit: BoxFit.cover,
-              ),
-            ),
+            decoration: BoxDecoration(color: maincolor),
           ),
           // ListTile(
           //   leading: Icon(Icons.line_style_rounded),

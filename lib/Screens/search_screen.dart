@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:module_1/provider/food_data_provider.dart';
 import 'package:module_1/Models/food_data_model.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key});
@@ -58,20 +59,8 @@ class _SearchScreenState extends State<SearchScreen> {
                   query = _foodQueryController.text;
                 });
               },
-              // decoration: const InputDecoration(
-              //   prefixIcon: Icon(Icons.search),
-              //   labelText: 'Enter Query',
-              //   hintText: 'e.g., 1lb brisket with fries',
-              // ),
             ),
           ),
-          // ElevatedButton(
-          //   onPressed: () {
-          //     // Add your Firestore update logic here
-          // _updateFirestore();
-          //   },
-          //   child: const Text("Store Nutrition Data"),
-          // ),
           Expanded(
             child: FutureBuilder(
               future: foodProvider.fetchData(query),
@@ -116,17 +105,23 @@ class _SearchScreenState extends State<SearchScreen> {
     );
   }
 
-  // void _fetchSuggestions() async {
-  //   try {
-  //     List<FoodItem> suggestionItems = await foodProvider.fetchData(query);
+  Future<void> _updateSharedPreferences(Map<String, dynamic> data) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setInt('Calories', data['Calories'] ?? 0);
+    prefs.setInt('Proteins', data['Proteins'] ?? 0);
+    prefs.setInt('Fats', data['Fats'] ?? 0);
+    prefs.setInt('Carbs', data['Carbs'] ?? 0);
+  }
 
-  //     setState(() {
-  //       suggestions = suggestionItems.map((item) => item.name).toList();
-  //     });
-  //   } catch (error) {
-  //     print('Error fetching suggestions: $error');
-  //   }
-  // }
+  static Future<Map<String, dynamic>> _getSharedPreferences() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return {
+      'Calories': prefs.getInt('Calories') ?? 0,
+      'Proteins': prefs.getInt('Proteins') ?? 0,
+      'Fats': prefs.getInt('Fats') ?? 0,
+      'Carbs': prefs.getInt('Carbs') ?? 0,
+    };
+  }
 
   Future<void> _updateFirestore() async {
     // Get the reference to the document
@@ -162,6 +157,7 @@ class _SearchScreenState extends State<SearchScreen> {
 
     // Set the updated data back to Firestore
     await nutritionDocRef.set(existingData);
+    // await _updateSharedPreferences(existingData);
     if (_mounted) {
       setState(() {
         foodCalorie = existingData['Calories'];

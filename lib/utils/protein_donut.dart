@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -12,6 +13,7 @@ class ProteinsDonutChart extends StatefulWidget {
 }
 
 class _ProteinsDonutChartState extends State<ProteinsDonutChart> {
+  User? currentUser = FirebaseAuth.instance.currentUser;
   @override
   void initState() {
     super.initState();
@@ -28,8 +30,8 @@ class _ProteinsDonutChartState extends State<ProteinsDonutChart> {
     try {
       QuerySnapshot querySnapshot = await FirebaseFirestore.instance
           .collection('Nutrition')
-          // .where('userId',
-          //     isEqualTo: 'user?.uid') // Adjust this query accordingly
+          .where('userId',
+              isEqualTo: currentUser!.uid) // Adjust this query accordingly
           .get();
 
       if (querySnapshot.docs.isNotEmpty) {

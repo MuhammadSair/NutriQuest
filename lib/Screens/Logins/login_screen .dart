@@ -2,15 +2,16 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:module_1/navigation_menu.dart';
-import 'package:module_1/Screens/signup_screen.dart';
+import 'package:module_1/Screens/Logins/signup_screen.dart';
+import 'package:module_1/navigation.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    User? currentUser = FirebaseAuth.instance.currentUser;
+    // User? currentUser = FirebaseAuth.instance.currentUser;
     final TextEditingController emailTextController = TextEditingController();
     final TextEditingController passwordTextController =
         TextEditingController();
@@ -80,12 +81,16 @@ class LoginScreen extends StatelessWidget {
                           FirebaseAuth.instance
                               .signInWithEmailAndPassword(
                                   email: email, password: password)
-                              .then((value) {
-                            Get.to(() => const NavigationMenu());
+                              .then((value) async {
+                            SharedPreferences prefs =
+                                await SharedPreferences.getInstance();
+                            prefs.setBool("isLoggedIn", true);
+                            Get.to(() => const Navigation());
                           }).onError((error, stackTrace) {
                             print("Error ${error.toString()}");
                           });
-                          Get.to(const NavigationMenu());
+                          Get.to(const Navigation());
+                          Navigator.of(context).pop();
                         },
                         child: Text("Sign in"))),
                 const SizedBox(
@@ -95,7 +100,7 @@ class LoginScreen extends StatelessWidget {
                     width: double.infinity,
                     child: OutlinedButton(
                         onPressed: () {
-                          Get.to(const SignUpScreen());
+                          Get.to(SignUpScreen());
                         },
                         child: Text("Create account"))),
                 const SizedBox(
@@ -105,7 +110,7 @@ class LoginScreen extends StatelessWidget {
                   width: double.infinity,
                   child: ElevatedButton(
                       onPressed: () {
-                        Get.to(const NavigationMenu());
+                        Get.to(const Navigation());
                       },
                       child: Text("Continue")),
                 )
