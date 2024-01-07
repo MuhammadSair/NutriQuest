@@ -45,7 +45,7 @@ class _SplashPageState extends State<SplashPage> {
         'images/abblack.png',
       ),
       title: Text(
-        'Mobile Nutrition ',
+        'Nutriquest ',
         style: GoogleFonts.bebasNeue(
           color: Colors.blueAccent,
           fontSize: 20,

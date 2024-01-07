@@ -89,8 +89,8 @@ class LoginScreen extends StatelessWidget {
                           }).onError((error, stackTrace) {
                             print("Error ${error.toString()}");
                           });
-                          Get.to(const Navigation());
                           Navigator.of(context).pop();
+                          Get.to(const Navigation());
                         },
                         child: Text("Sign in"))),
                 const SizedBox(
