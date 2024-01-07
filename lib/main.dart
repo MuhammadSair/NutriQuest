@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 // import 'package:module_1/Navigation_menu.dart';
 // import 'package:module_1/Screens/Logins/login_screen%20.dart';
-import 'package:module_1/Screens/logins_original/splash.dart';
+import 'package:module_1/Screens/Logins/splash.dart';
 import 'package:module_1/Screens/recipes/favorite_provider.dart';
 import 'package:module_1/firebase_options.dart';
 // import 'package:module_1/home_page.dart';
