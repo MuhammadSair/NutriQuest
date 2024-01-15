@@ -54,15 +54,17 @@ class FitnessDataProcessor {
         'ExtremeWeightGainCalory': extremeWeightGainCalory,
         // Add other fields as needed
       });
-      // SharedPreferences prefs = await SharedPreferences.getInstance();
-      // prefs.setInt('BMR', bmr);
-      // prefs.setInt('MaintainWeightCalory', maintainWeightCalory);
-      // prefs.setInt('MildWeightLossCalory', mildWeightLossCalory);
-      // prefs.setInt('WeightLossCalory', weightLossCalory);
-      // prefs.setInt('ExtremeWeightLossCalory', extremeWeightLossCalory);
-      // prefs.setInt('MildWeightGainCalory', mildWeightGainCalory);
-      // prefs.setInt('WeightGainCalory', weightGainCalory);
-      // prefs.setInt('ExtremeWeightGainCalory', extremeWeightGainCalory);
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      prefs.setDouble('BMR', bmr as double);
+      prefs.setDouble('MaintainWeightCalory', maintainWeightCalory as double);
+      prefs.setDouble('MildWeightLossCalory', mildWeightLossCalory as double);
+      prefs.setDouble('WeightLossCalory', weightLossCalory as double);
+      prefs.setDouble(
+          'ExtremeWeightLossCalory', extremeWeightLossCalory as double);
+      prefs.setDouble('MildWeightGainCalory', mildWeightGainCalory as double);
+      prefs.setDouble('WeightGainCalory', weightGainCalory as double);
+      prefs.setDouble(
+          'ExtremeWeightGainCalory', extremeWeightGainCalory as double);
       if (kDebugMode) {
         print('Data stored in Firestore successfully!');
       }
@@ -73,20 +75,21 @@ class FitnessDataProcessor {
     }
   }
 
-  // Future<Map<String, dynamic>> getPrefs() async {
-  //   SharedPreferences prefs = await SharedPreferences.getInstance();
-  //   return {
-  //     'BMR': prefs.getInt('BMR'),
-  //     'MaintainWeightCalory': prefs.getInt('MaintainWeightCalory'),
-  //     'MildWeightLossCalory': prefs.getInt('MildWeightLossCalory'),
-  //     'WeightLossCalory': prefs.getInt('WeightLossCalory'),
-  //     'ExtremeWeightLossCalory': prefs.getInt('ExtremeWeightLossCalory'),
-  //     'MildWeightGainCalory': prefs.getInt('MildWeightGainCalory'),
-  //     'WeightGainCalory': prefs.getInt('WeightGainCalory'),
-  //     'ExtremeWeightGainCalory': prefs.getInt('ExtremeWeightGainCalory'),
-  //     'goal': prefs.getString('goal'),
-  //   };
-  // }
+  Future<Map<String, dynamic>> getPrefs() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return {
+      'BMR': prefs.getInt('BMR'),
+      'MaintainWeightCalory': prefs.getInt('MaintainWeightCalory'),
+      'MildWeightLossCalory': prefs.getInt('MildWeightLossCalory'),
+      'WeightLossCalory': prefs.getInt('WeightLossCalory'),
+      'ExtremeWeightLossCalory': prefs.getInt('ExtremeWeightLossCalory'),
+      'MildWeightGainCalory': prefs.getInt('MildWeightGainCalory'),
+      'WeightGainCalory': prefs.getInt('WeightGainCalory'),
+      'ExtremeWeightGainCalory': prefs.getInt('ExtremeWeightGainCalory'),
+      'goal': prefs.getString('goal'),
+    };
+  }
+
   Future<void> goal(String goal) async {
     FirebaseFirestore.instance.collection('goal').doc(currentUser?.uid).set({
       'goal': goal,

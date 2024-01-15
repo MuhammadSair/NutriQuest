@@ -45,7 +45,7 @@ class _BaseFinderState extends State<BaseFinder> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('API Call Example'),
+        title: Text('About You'),
       ),
       body: Column(
         children: [
@@ -76,41 +76,44 @@ class _BaseFinderState extends State<BaseFinder> {
                 controller: goalController,
                 decoration: InputDecoration(labelText: 'goal'),
               ),
-              ElevatedButton(
-                onPressed: () async {
-                  gender = genderController.text;
-                  activityLevel = activityLevelController.text;
-                  goal = goalController.text;
-                  age = int.tryParse(ageController.text) ?? 0;
-                  weight = int.tryParse(weightController.text) ?? 0;
-                  height = int.tryParse(heightController.text) ?? 0;
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: () async {
+                    gender = genderController.text;
+                    activityLevel = activityLevelController.text;
+                    goal = goalController.text;
+                    age = int.tryParse(ageController.text) ?? 0;
+                    weight = int.tryParse(weightController.text) ?? 0;
+                    height = int.tryParse(heightController.text) ?? 0;
 
-                  // Navigator.push(
-                  //   context,
-                  //   MaterialPageRoute(
-                  //     builder: (context) => MyWidget(
-                  //       gender: gender,
-                  //       activityLevel: activityLevel,
-                  //       age: age,
-                  //       weight: weight,
-                  //       height: height,
-                  //     ),
-                  //   ),
-                  // );
-                  await dataProcessor.processAndStoreInFirestore(
-                    gender: gender,
-                    activityLevel: activityLevel,
-                    age: age,
-                    weight: weight,
-                    height: height,
-                  );
-                  SharedPreferences prefs =
-                      await SharedPreferences.getInstance();
-                  prefs.setString("goal", goal);
-                  dataProcessor.goal(goal);
-                  Get.offAll(() => NavigationMenu());
-                },
-                child: Text('Submit'),
+                    // Navigator.push(
+                    //   context,
+                    //   MaterialPageRoute(
+                    //     builder: (context) => MyWidget(
+                    //       gender: gender,
+                    //       activityLevel: activityLevel,
+                    //       age: age,
+                    //       weight: weight,
+                    //       height: height,
+                    //     ),
+                    //   ),
+                    // );
+                    await dataProcessor.processAndStoreInFirestore(
+                      gender: gender,
+                      activityLevel: activityLevel,
+                      age: age,
+                      weight: weight,
+                      height: height,
+                    );
+                    SharedPreferences prefs =
+                        await SharedPreferences.getInstance();
+                    prefs.setString("goal", goal);
+                    dataProcessor.goal(goal);
+                    Get.offAll(() => NavigationMenu());
+                  },
+                  child: Text('Get Your Plan'),
+                ),
               ),
             ],
           ),
