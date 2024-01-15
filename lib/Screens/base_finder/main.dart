@@ -47,77 +47,82 @@ class _BaseFinderState extends State<BaseFinder> {
       appBar: AppBar(
         title: Text('About You'),
       ),
-      body: Column(
-        children: [
-          Column(
-            children: [
-              // Your UI components here
-              TextField(
-                controller: genderController,
-                decoration: InputDecoration(labelText: 'Gender'),
-              ),
-              TextField(
-                controller: activityLevelController,
-                decoration: InputDecoration(labelText: 'Activity Level'),
-              ),
-              TextField(
-                controller: ageController,
-                decoration: InputDecoration(labelText: 'Age'),
-              ),
-              TextField(
-                controller: weightController,
-                decoration: InputDecoration(labelText: 'Weight'),
-              ),
-              TextField(
-                controller: heightController,
-                decoration: InputDecoration(labelText: 'Height'),
-              ),
-              TextField(
-                controller: goalController,
-                decoration: InputDecoration(labelText: 'goal'),
-              ),
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: () async {
-                    gender = genderController.text;
-                    activityLevel = activityLevelController.text;
-                    goal = goalController.text;
-                    age = int.tryParse(ageController.text) ?? 0;
-                    weight = int.tryParse(weightController.text) ?? 0;
-                    height = int.tryParse(heightController.text) ?? 0;
-
-                    // Navigator.push(
-                    //   context,
-                    //   MaterialPageRoute(
-                    //     builder: (context) => MyWidget(
-                    //       gender: gender,
-                    //       activityLevel: activityLevel,
-                    //       age: age,
-                    //       weight: weight,
-                    //       height: height,
-                    //     ),
-                    //   ),
-                    // );
-                    await dataProcessor.processAndStoreInFirestore(
-                      gender: gender,
-                      activityLevel: activityLevel,
-                      age: age,
-                      weight: weight,
-                      height: height,
-                    );
-                    SharedPreferences prefs =
-                        await SharedPreferences.getInstance();
-                    prefs.setString("goal", goal);
-                    dataProcessor.goal(goal);
-                    Get.offAll(() => NavigationMenu());
-                  },
-                  child: Text('Get Your Plan'),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Column(
+              children: [
+                // Your UI components here
+                TextField(
+                  controller: genderController,
+                  decoration: InputDecoration(labelText: 'Gender'),
                 ),
-              ),
-            ],
-          ),
-        ],
+                TextField(
+                  controller: activityLevelController,
+                  decoration: InputDecoration(labelText: 'Activity Level'),
+                ),
+                TextField(
+                  controller: ageController,
+                  decoration: InputDecoration(labelText: 'Age'),
+                ),
+                TextField(
+                  controller: weightController,
+                  decoration: InputDecoration(labelText: 'Weight'),
+                ),
+                TextField(
+                  controller: heightController,
+                  decoration: InputDecoration(labelText: 'Height'),
+                ),
+                TextField(
+                  controller: goalController,
+                  decoration: InputDecoration(labelText: 'goal'),
+                ),
+                SizedBox(
+                  height: 10.0,
+                ),
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    onPressed: () async {
+                      gender = genderController.text;
+                      activityLevel = activityLevelController.text;
+                      goal = goalController.text;
+                      age = int.tryParse(ageController.text) ?? 0;
+                      weight = int.tryParse(weightController.text) ?? 0;
+                      height = int.tryParse(heightController.text) ?? 0;
+
+                      // Navigator.push(
+                      //   context,
+                      //   MaterialPageRoute(
+                      //     builder: (context) => MyWidget(
+                      //       gender: gender,
+                      //       activityLevel: activityLevel,
+                      //       age: age,
+                      //       weight: weight,
+                      //       height: height,
+                      //     ),
+                      //   ),
+                      // );
+                      await dataProcessor.processAndStoreInFirestore(
+                        gender: gender,
+                        activityLevel: activityLevel,
+                        age: age,
+                        weight: weight,
+                        height: height,
+                      );
+                      SharedPreferences prefs =
+                          await SharedPreferences.getInstance();
+                      prefs.setString("goal", goal);
+                      dataProcessor.goal(goal);
+                      Get.offAll(() => NavigationMenu());
+                    },
+                    child: Text('Get Your Plan'),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

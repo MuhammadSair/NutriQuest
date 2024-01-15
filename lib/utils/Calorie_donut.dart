@@ -59,7 +59,7 @@ class _CalorieDonutChartState extends State<CalorieDonutChart> {
         setState(() {
           goal = data['goal'];
           if (kDebugMode) {
-            print(foodCalorie);
+            print("Goal value is $goal");
           } // Default to 0 if 'Calories' is null
         });
       } else {
@@ -108,8 +108,8 @@ class _CalorieDonutChartState extends State<CalorieDonutChart> {
     try {
       QuerySnapshot querySnapshot = await FirebaseFirestore.instance
           .collection('fitnessData')
-          .where('userId',
-              isEqualTo: currentUser!.uid) // Adjust this query accordingly
+          // .where('userId',
+          //     isEqualTo: currentUser!.uid) // Adjust this query accordingly
           .get();
 
       if (querySnapshot.docs.isNotEmpty) {
@@ -118,37 +118,41 @@ class _CalorieDonutChartState extends State<CalorieDonutChart> {
         setState(() {
           switch (goal) {
             case 'MaintainWeight':
-              base = data['MaintainWeightCalory'] ??
-                  2500; // Set the base calorie for MaintainWeight
+              base = data[
+                  'MaintainWeightCalory']; // Set the base calorie for MaintainWeight
               break;
             case 'MildWeightLoss':
-              base = data['MildWeightLossCalory'] ??
-                  2500; // Set the base calorie for MildWeightLoss
+              base = data[
+                  'MildWeightLossCalory']; // Set the base calorie for MildWeightLoss
               break;
             case 'WeightLoss':
-              base = data['WeightLossCalory'] ??
-                  2500; // Set the base calorie for WeightLoss
+              base = data[
+                  'WeightLossCalory']; // Set the base calorie for WeightLoss
               break;
             case 'ExtremeWeightGain':
-              base = data['ExtremeWeightGainCalory'] ??
-                  2500; // Set the base calorie for ExtremeWeightGain
+              base = data[
+                  'ExtremeWeightGainCalory']; // Set the base calorie for ExtremeWeightGain
               break;
             case 'WeightGain':
-              base = data['WeightGainCalory'] ??
-                  2500; // Set the base calorie for ExtremeWeightGain
+              base = data[
+                  'WeightGainCalory']; // Set the base calorie for ExtremeWeightGain
               break;
             // Add more cases for other goals if needed
-            default:
-              base = 2500; // Default base calorie
+            // default:
+            //   base = 2500;
+            // Default base calorie
           } // Default to 0 if 'Calories' is null
         });
+        if (kDebugMode) {
+          print("Base Value is $base");
+        }
       } else {
         // Handle case where no data is found
         print('No data found in Base Firestore.');
       }
     } catch (error) {
       // Handle any errors that occur during the fetch operation
-      print('Error fetching data from Firestore: $error');
+      print('Base Error fetching data from Firestore: $error');
     }
   }
 
