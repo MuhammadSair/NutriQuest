@@ -28,19 +28,13 @@ class _CalorieDonutChartState extends State<CalorieDonutChart> {
     super.initState();
     // Fetch calorie data from Firestore when the widget is initialized
     _fetchCalorieData();
-    getPrefs().then((value) {
-      prefs = value;
-      goal =
-          prefs['goal'] ?? ''; // Retrieve the goal value from SharedPreferences
-      setBaseCalorie(goal);
-    });
 
     // Fetch goal data from Firestore when the widget is initialized
-    // _fetchGoalData().then((_) {
-    // After fetching the goal data, fetch the calorie and base data
-    // _fetchCalorieData();
-    // _fetchBaseData();
-    // });
+    _fetchGoalData().then((_) {
+      // After fetching the goal data, fetch the calorie and base data
+      _fetchCalorieData();
+      _fetchBaseData();
+    });
   }
 
   @override
@@ -49,67 +43,35 @@ class _CalorieDonutChartState extends State<CalorieDonutChart> {
     _fetchCalorieData();
   }
 
-  // Future<void> _fetchGoalData() async {
-  //   // Assuming you have a collection named 'Nutrition' in F.0000000000000000irestore
-  //   // and each document contains a 'Calories' field
-  //   try {
-  //     QuerySnapshot querySnapshot = await FirebaseFirestore.instance
-  //         .collection('goal')
-  //         .where('userId',
-  //             isEqualTo: currentUser!.uid) // Adjust this query accordingly
-  //         .get();
+  Future<void> _fetchGoalData() async {
+    // Assuming you have a collection named 'Nutrition' in F.0000000000000000irestore
+    // and each document contains a 'Calories' field
+    try {
+      QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+          .collection('goal')
+          .where('userId',
+              isEqualTo: currentUser!.uid) // Adjust this query accordingly
+          .get();
 
-  //     if (querySnapshot.docs.isNotEmpty) {
-  //       // Use the first document for simplicity, you may adjust this based on your data model
-  //       var data = querySnapshot.docs.first.data() as Map<String, dynamic>;
-  //       setState(() {
-  //         goal = data['goal'];
-  //         if (kDebugMode) {
-  //           print(foodCalorie);
-  //         } // Default to 0 if 'Calories' is null
-  //       });
-  //     } else {
-  //       // Handle case where no data is found
-  //       print('No data found in goal Firestore.');
-  //       goal = 'MaintainWeight';
-  //     }
-  //   } catch (error) {
-  //     // Handle any errors that occur during the fetch operation
-  //     print('Error fetching data from Firestore: $error');
-  //   }
-  // }
-
-  void setBaseCalorie(String goal) {
-    setState(() {
-      switch (goal) {
-        case 'MaintainWeight':
-          base = prefs['MaintainWeightCalory'] ??
-              2500; // Set the base calorie for MaintainWeight
-          break;
-        case 'MildWeightLoss':
-          base = prefs['MildWeightLossCalory'] ??
-              2500; // Set the base calorie for MildWeightLoss
-          break;
-        case 'WeightLoss':
-          base = prefs['WeightLossCalory'] ??
-              2500; // Set the base calorie for WeightLoss
-          break;
-        case 'ExtremeWeightGain':
-          base = prefs['ExtremeWeightGainCalory'] ??
-              2500; // Set the base calorie for ExtremeWeightGain
-          break;
-        // Add more cases for other goals if needed
-        // default:
-        //   base = 2500; // Default base calorie
+      if (querySnapshot.docs.isNotEmpty) {
+        // Use the first document for simplicity, you may adjust this based on your data model
+        var data = querySnapshot.docs.first.data() as Map<String, dynamic>;
+        setState(() {
+          goal = data['goal'];
+          if (kDebugMode) {
+            print(foodCalorie);
+          } // Default to 0 if 'Calories' is null
+        });
+      } else {
+        // Handle case where no data is found
+        print('No data found in goal Firestore.');
+        goal = 'MaintainWeight';
       }
-    });
+    } catch (error) {
+      // Handle any errors that occur during the fetch operation
+      print('Error fetching data from Firestore: $error');
+    }
   }
-
-  Future<Map<String, dynamic>> getPrefs() async {
-    return dataProcessor.getPrefs();
-  }
-
-  // FoodLog foodLogInstance = FoodLog();
 
   Future<void> _fetchCalorieData() async {
     // Assuming you have a collection named 'Nutrition' in F.0000000000000000irestore
@@ -289,3 +251,41 @@ class _CalorieDonutChartState extends State<CalorieDonutChart> {
     );
   }
 }
+// void setBaseCalorie(String goal) {
+  //   // setState(() {
+  //   switch (goal) {
+  //     case 'MaintainWeight':
+  //       base = prefs[
+  //           'MaintainWeightCalory']; // Set the base calorie for MaintainWeight
+  //       break;
+  //     case 'MildWeightLoss':
+  //       base = prefs[
+  //           'MildWeightLossCalory']; // Set the base calorie for MildWeightLoss
+  //       break;
+  //     case 'WeightLoss':
+  //       base = prefs['WeightLossCalory']; // Set the base calorie for WeightLoss
+  //       break;
+  //     case 'ExtremeWeightGain':
+  //       base = prefs[
+  //           'ExtremeWeightGainCalory']; // Set the base calorie for ExtremeWeightGain
+  //       break;
+  //     // Add more cases for other goals if needed
+  //     // default:
+  //     //   base = 2500; // Default base calorie
+  //   }
+  //   // });
+  //   if (kDebugMode) {
+  //     print("Base value is $base");
+  //   }
+  // }
+      // getPrefs().then((value) {
+    //   prefs = value;
+    //   goal =
+    //       prefs['goal'] ?? ''; // Retrieve the goal value from SharedPreferences
+    //   setBaseCalorie(goal);
+    // });
+  // Future<Map<String, dynamic>> getPrefs() async {
+  //   return dataProcessor.getPrefs();
+  // }
+
+  // FoodLog foodLogInstance = FoodLog();

@@ -78,14 +78,14 @@ class FitnessDataProcessor {
   Future<Map<String, dynamic>> getPrefs() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return {
-      'BMR': prefs.getInt('BMR'),
-      'MaintainWeightCalory': prefs.getInt('MaintainWeightCalory'),
-      'MildWeightLossCalory': prefs.getInt('MildWeightLossCalory'),
-      'WeightLossCalory': prefs.getInt('WeightLossCalory'),
-      'ExtremeWeightLossCalory': prefs.getInt('ExtremeWeightLossCalory'),
-      'MildWeightGainCalory': prefs.getInt('MildWeightGainCalory'),
-      'WeightGainCalory': prefs.getInt('WeightGainCalory'),
-      'ExtremeWeightGainCalory': prefs.getInt('ExtremeWeightGainCalory'),
+      'BMR': prefs.getDouble('BMR'),
+      'MaintainWeightCalory': prefs.getDouble('MaintainWeightCalory'),
+      'MildWeightLossCalory': prefs.getDouble('MildWeightLossCalory'),
+      'WeightLossCalory': prefs.getDouble('WeightLossCalory'),
+      'ExtremeWeightLossCalory': prefs.getDouble('ExtremeWeightLossCalory'),
+      'MildWeightGainCalory': prefs.getDouble('MildWeightGainCalory'),
+      'WeightGainCalory': prefs.getDouble('WeightGainCalory'),
+      'ExtremeWeightGainCalory': prefs.getDouble('ExtremeWeightGainCalory'),
       'goal': prefs.getString('goal'),
     };
   }
