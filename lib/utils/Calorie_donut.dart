@@ -20,9 +20,9 @@ class _CalorieDonutChartState extends State<CalorieDonutChart> {
   User? currentUser = FirebaseAuth.instance.currentUser;
   FitnessDataProcessor dataProcessor = FitnessDataProcessor();
   late String goal;
-  late Map<String, dynamic> prefs;
+  // late Map<String, dynamic> prefs;
   late double foodCalorie = 0;
-  late int base = 0;
+  late double base = 0;
   @override
   void initState() {
     super.initState();
@@ -34,13 +34,48 @@ class _CalorieDonutChartState extends State<CalorieDonutChart> {
     //       prefs['goal'] ?? ''; // Retrieve the goal value from SharedPreferences
     //   setBaseCalorie(goal);
     // });
-    _fetchBaseData();
+
+    // Fetch goal data from Firestore when the widget is initialized
+    _fetchGoalData().then((_) {
+      // After fetching the goal data, fetch the calorie and base data
+      _fetchCalorieData();
+      _fetchBaseData();
+    });
   }
 
   @override
   void dispose() {
     super.dispose();
     _fetchCalorieData();
+  }
+
+  Future<void> _fetchGoalData() async {
+    // Assuming you have a collection named 'Nutrition' in F.0000000000000000irestore
+    // and each document contains a 'Calories' field
+    try {
+      QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+          .collection('goal')
+          .where('userId',
+              isEqualTo: currentUser!.uid) // Adjust this query accordingly
+          .get();
+
+      if (querySnapshot.docs.isNotEmpty) {
+        // Use the first document for simplicity, you may adjust this based on your data model
+        var data = querySnapshot.docs.first.data() as Map<String, dynamic>;
+        setState(() {
+          goal = data['goal'];
+          if (kDebugMode) {
+            print(foodCalorie);
+          } // Default to 0 if 'Calories' is null
+        });
+      } else {
+        // Handle case where no data is found
+        print('No data found in goal Firestore.');
+      }
+    } catch (error) {
+      // Handle any errors that occur during the fetch operation
+      print('Error fetching data from Firestore: $error');
+    }
   }
 
   // void setBaseCalorie(String goal) {
@@ -96,7 +131,7 @@ class _CalorieDonutChartState extends State<CalorieDonutChart> {
         });
       } else {
         // Handle case where no data is found
-        print('No data found in Firestore.');
+        print('No data found in Calorie Firestore.');
       }
     } catch (error) {
       // Handle any errors that occur during the fetch operation
@@ -140,13 +175,13 @@ class _CalorieDonutChartState extends State<CalorieDonutChart> {
                   2500; // Set the base calorie for ExtremeWeightGain
               break;
             // Add more cases for other goals if needed
-            // default:
-            //   base = 2500; // Default base calorie
+            default:
+              base = 2500; // Default base calorie
           } // Default to 0 if 'Calories' is null
         });
       } else {
         // Handle case where no data is found
-        print('No data found in Firestore.');
+        print('No data found in Base Firestore.');
       }
     } catch (error) {
       // Handle any errors that occur during the fetch operation

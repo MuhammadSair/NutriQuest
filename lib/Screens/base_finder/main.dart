@@ -107,6 +107,7 @@ class _BaseFinderState extends State<BaseFinder> {
                   SharedPreferences prefs =
                       await SharedPreferences.getInstance();
                   prefs.setString("goal", goal);
+                  dataProcessor.goal(goal);
                   Get.offAll(() => NavigationMenu());
                 },
                 child: Text('Submit'),
