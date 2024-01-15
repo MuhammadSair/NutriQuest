@@ -1,13 +1,36 @@
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:module_1/Screens/Logins/signup_screen.dart';
-import 'package:module_1/navigation.dart';
+import 'package:module_1/Screens/base_finder/main.dart';
+
+import 'package:module_1/navigation_menu.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
+  void dialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return Center(
+          child: SpinKitCubeGrid(
+            itemBuilder: (BuildContext context, int index) {
+              return DecoratedBox(
+                decoration: BoxDecoration(
+                  color: index.isEven ? Colors.white : Colors.white,
+                ),
+              );
+            },
+            size: 50,
+          ),
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -85,12 +108,27 @@ class LoginScreen extends StatelessWidget {
                             SharedPreferences prefs =
                                 await SharedPreferences.getInstance();
                             prefs.setBool("isLoggedIn", true);
-                            Get.to(() => const Navigation());
+
+                            Get.offAll(() =>BaseFinder() );
                           }).onError((error, stackTrace) {
-                            print("Error ${error.toString()}");
+                            // print("Error ${error.toString()}");
+                            // Navigator.of(context).pop();
+                            // print(e);
+                            AwesomeDialog(
+                              context: context,
+                              dialogType: DialogType.error,
+                              animType: AnimType.rightSlide,
+                              headerAnimationLoop: false,
+                              title: 'Error',
+                              desc: error.toString(),
+                              btnOkOnPress: () {},
+                              btnOkIcon: Icons.cancel,
+                              btnOkColor: Colors.red,
+                              dismissOnTouchOutside: true,
+                            ).show();
                           });
-                          Navigator.of(context).pop();
-                          Get.to(const Navigation());
+
+                          // Get.to(const NavigationMenu());
                         },
                         child: Text("Sign in"))),
                 const SizedBox(
@@ -106,14 +144,14 @@ class LoginScreen extends StatelessWidget {
                 const SizedBox(
                   height: 16.0,
                 ),
-                SizedBox(
-                  width: double.infinity,
-                  child: ElevatedButton(
-                      onPressed: () {
-                        Get.to(const Navigation());
-                      },
-                      child: Text("Continue")),
-                )
+                // SizedBox(
+                //   width: double.infinity,
+                //   child: ElevatedButton(
+                //       onPressed: () {
+                //         Get.to(const NavigationMenu());
+                //       },
+                //       child: Text("Continue")),
+                // )
               ],
             ))
           ]),

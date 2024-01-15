@@ -4,23 +4,24 @@ import 'package:module_1/Models/base_nutrients_model.dart';
 
 class BaseProvider {
   Future<List<FitnessCalculatorResponse>> fetchData(
-    String age,
+    int age,
     String gender,
-    String height,
-    String weight,
+    int height,
+    int weight,
     String activityLevel,
   ) async {
-    const String url = 'https://fitness-calculator.p.rapidapi.com/dailycalorie';
+    // const String url = 'https://fitness-calculator.p.rapidapi.com/dailycalorie';
+    String uri = 'https://fitness-calculator.p.rapidapi.com/dailycalorie?'
+        'age=$age&gender=$gender&height=$height&weight=$weight&activitylevel=$activityLevel';
+    // Map<String, String> queryParams = {
+    //   'age': age,
+    //   'gender': gender,
+    //   'height': height,
+    //   'weight': weight,
+    //   'activitylevel': activityLevel,
+    // };
 
-    Map<String, String> queryParams = {
-      'age': age,
-      'gender': gender,
-      'height': height,
-      'weight': weight,
-      'activitylevel': activityLevel,
-    };
-
-    final uri = Uri.parse(url).replace(queryParameters: queryParams);
+    // final uri = Uri.parse(url).replace(queryParameters: queryParams);
 
     Map<String, String> headers = {
       'X-RapidAPI-Key': '0702284440msh1f07bea7bcdfb1cp1845cdjsn92aa00665f69',
@@ -28,7 +29,7 @@ class BaseProvider {
     };
 
     try {
-      final response = await http.get(uri, headers: headers);
+      final response = await http.get(Uri.parse(uri), headers: headers);
 
       if (response.statusCode == 200) {
         // Parse JSON response using model classes

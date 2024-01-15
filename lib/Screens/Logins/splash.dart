@@ -2,9 +2,9 @@ import 'package:easy_splash_screen/easy_splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:module_1/Screens/Logins/login_screen%20.dart';
-import 'package:module_1/Screens/home_screen.dart';
-import 'package:module_1/navigation.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+// import 'package:module_1/Screens/home_screen.dart';
+
+// import 'package:shared_preferences/shared_preferences.dart';
 
 class SplashPage extends StatefulWidget {
   const SplashPage({super.key});

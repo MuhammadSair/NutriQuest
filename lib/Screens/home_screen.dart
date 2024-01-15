@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+// import 'package:module_1/Screens/base_finder.dart';
+import 'package:module_1/Screens/base_finder/main.dart';
 import 'package:module_1/Screens/recipes/consent/colors.dart';
 import 'package:module_1/Screens/recipes/sidebar.dart';
 import 'package:module_1/utils/Calorie_donut.dart';
@@ -68,6 +70,17 @@ class _HomeScreenState extends State<HomeScreen> {
                 autoPlayAnimationDuration: Duration(milliseconds: 800),
                 viewportFraction: 0.8,
               ),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => BaseFinder(),
+                  ),
+                );
+              },
+              child: Text("BaseFinder"),
             ),
           ],
         ),

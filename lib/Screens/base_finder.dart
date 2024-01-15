@@ -2,27 +2,28 @@ import 'package:flutter/material.dart';
 import 'package:module_1/Models/base_nutrients_model.dart';
 import 'package:module_1/provider/base_nutrients_provider.dart';
 
-class BaseFinder extends StatefulWidget {
-  const BaseFinder({super.key});
+class FakeBaseFinder extends StatefulWidget {
+  const FakeBaseFinder({super.key});
 
   @override
-  State<BaseFinder> createState() => _BaseFinderState();
+  State<FakeBaseFinder> createState() => _FakeBaseFinderState();
 }
 
-class _BaseFinderState extends State<BaseFinder> {
+class _FakeBaseFinderState extends State<FakeBaseFinder> {
   final BaseProvider provider = BaseProvider();
   final TextEditingController genderController = TextEditingController();
   final TextEditingController ageController = TextEditingController();
   final TextEditingController heightController = TextEditingController();
   final TextEditingController weightController = TextEditingController();
   final TextEditingController activityLevelController = TextEditingController();
+
   List<String> resultData = [];
   @override
   Widget build(BuildContext context) {
-    String age = "";
+    int age = 0;
     String gender = "";
-    String height = "";
-    String weight = "";
+    int height = 0;
+    int weight = 0;
     String activityLevel = "";
 
     return Scaffold(
@@ -32,51 +33,55 @@ class _BaseFinderState extends State<BaseFinder> {
               hintText: "age",
             ),
             controller: ageController,
-            onChanged: (value) {
-              setState(() {
-                // age = int.tryParse(value) ?? 0;
-                age = value;
-              });
-            },
+            // onChanged: (value) {
+            //   setState(() {
+            //     age = int.parse(value);
+            //     // age = value as int;
+            //   });
+            // },
             onSubmitted: (value) {}),
         TextField(
-            decoration: InputDecoration(hintText: "gender"),
-            controller: genderController,
-            onChanged: (value) {
-              setState(() {
-                gender = value;
-              });
-            },
-            onSubmitted: (value) {}),
+          decoration: InputDecoration(hintText: "gender"),
+          controller: genderController,
+          // onChanged: (value) {
+          //   setState(() {
+          //     gender = value;
+          //   });
+          // },
+          // onSubmitted: (value) {}),
+        ),
         TextField(
-            decoration: InputDecoration(hintText: "height"),
-            controller: heightController,
-            onChanged: (value) {
-              setState(() {
-                // height = int.tryParse(value) ?? 0;
-                height = value;
-              });
-            },
-            onSubmitted: (value) {}),
+          decoration: InputDecoration(hintText: "height"),
+          controller: heightController,
+          // onChanged: (value) {
+          //   setState(() {
+          //     height = int.parse(value);
+          //     // height = value as int;
+          //   });
+          // },
+          // onSubmitted: (value) {}),
+        ),
         TextField(
-            decoration: InputDecoration(hintText: "weight"),
-            controller: weightController,
-            onChanged: (value) {
-              setState(() {
-                // weight = int.tryParse(value) ?? 0;
-                weight = value;
-              });
-            },
-            onSubmitted: (value) {}),
+          decoration: InputDecoration(hintText: "weight"),
+          controller: weightController,
+          // onChanged: (value) {
+          //   setState(() {
+          //     weight = int.parse(value);
+          //     // weight = value as int;
+          //   });
+          // },
+          // onSubmitted: (value) {}),
+        ),
         TextField(
-            decoration: InputDecoration(hintText: "activitylevel"),
-            controller: activityLevelController,
-            onChanged: (value) {
-              setState(() {
-                activityLevel = value;
-              });
-            },
-            onSubmitted: (value) {}),
+          decoration: InputDecoration(hintText: "activitylevel"),
+          controller: activityLevelController,
+          // onChanged: (value) {
+          //   setState(() {
+          //     activityLevel = value;
+          //   });
+          // },
+          // onSubmitted: (value) {}),
+        ),
         ElevatedButton(
             onPressed: () {
               setState(() {
@@ -84,18 +89,18 @@ class _BaseFinderState extends State<BaseFinder> {
               });
               setState(() {
                 // weight = weightController.text as int;
-                weight = weightController.text;
+                weight = int.parse(weightController.text);
               });
               setState(() {
                 // height = heightController.text as int;
-                height = heightController.text;
+                height = int.parse(heightController.text);
               });
               setState(() {
                 gender = genderController.text;
               });
               setState(() {
                 // age = ageController.text as int;
-                age = ageController.text;
+                age = int.parse(ageController.text);
               });
             },
             child: Text("Get the Bmr")),

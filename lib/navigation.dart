@@ -35,7 +35,7 @@ class _NavigationState extends State<Navigation> {
           Icons.search,
           // color: index == 2 ? maincolor : Colors.grey,
         ),
-        backgroundColor: Colors.yellow,
+        backgroundColor: Colors.blue,
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: BottomAppBar(

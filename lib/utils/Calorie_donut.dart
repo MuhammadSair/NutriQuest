@@ -3,7 +3,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:intl/intl.dart';
+import 'package:module_1/Screens/base_finder/base_giver.dart';
 // import 'package:flutter_any_logo/flutter_any_logo.dart';
 // import 'package:module_1/Screens/food_log.dart';
 
@@ -16,11 +18,23 @@ class CalorieDonutChart extends StatefulWidget {
 
 class _CalorieDonutChartState extends State<CalorieDonutChart> {
   User? currentUser = FirebaseAuth.instance.currentUser;
+  FitnessDataProcessor dataProcessor = FitnessDataProcessor();
+  late String goal;
+  late Map<String, dynamic> prefs;
+  late double foodCalorie = 0;
+  late int base = 0;
   @override
   void initState() {
     super.initState();
     // Fetch calorie data from Firestore when the widget is initialized
     _fetchCalorieData();
+    // getPrefs().then((value) {
+    //   prefs = value;
+    //   goal =
+    //       prefs['goal'] ?? ''; // Retrieve the goal value from SharedPreferences
+    //   setBaseCalorie(goal);
+    // });
+    _fetchBaseData();
   }
 
   @override
@@ -29,12 +43,40 @@ class _CalorieDonutChartState extends State<CalorieDonutChart> {
     _fetchCalorieData();
   }
 
+  // void setBaseCalorie(String goal) {
+  //   setState(() {
+  //     switch (goal) {
+  //       case 'MaintainWeight':
+  //         base = prefs['MaintainWeightCalory'] ??
+  //             2500; // Set the base calorie for MaintainWeight
+  //         break;
+  //       case 'MildWeightLoss':
+  //         base = prefs['MildWeightLossCalory'] ??
+  //             2500; // Set the base calorie for MildWeightLoss
+  //         break;
+  //       case 'WeightLoss':
+  //         base = prefs['WeightLossCalory'] ??
+  //             2500; // Set the base calorie for WeightLoss
+  //         break;
+  //       case 'ExtremeWeightGain':
+  //         base = prefs['ExtremeWeightGainCalory'] ??
+  //             2500; // Set the base calorie for ExtremeWeightGain
+  //         break;
+  //       // Add more cases for other goals if needed
+  //       default:
+  //         base = 2500; // Default base calorie
+  //     }
+  //   });
+  // }
+
+  // Future<Map<String, dynamic>> getPrefs() async {
+  //   return dataProcessor.getPrefs();
+  // }
+
   // FoodLog foodLogInstance = FoodLog();
-  late double foodCalorie = 0;
-  var base = 2500;
 
   Future<void> _fetchCalorieData() async {
-    // Assuming you have a collection named 'Nutrition' in Firestore
+    // Assuming you have a collection named 'Nutrition' in F.0000000000000000irestore
     // and each document contains a 'Calories' field
     try {
       QuerySnapshot querySnapshot = await FirebaseFirestore.instance
@@ -50,6 +92,56 @@ class _CalorieDonutChartState extends State<CalorieDonutChart> {
           foodCalorie = data['Calories'] ?? 0;
           if (kDebugMode) {
             print(foodCalorie);
+          } // Default to 0 if 'Calories' is null
+        });
+      } else {
+        // Handle case where no data is found
+        print('No data found in Firestore.');
+      }
+    } catch (error) {
+      // Handle any errors that occur during the fetch operation
+      print('Error fetching data from Firestore: $error');
+    }
+  }
+
+  Future<void> _fetchBaseData() async {
+    // Assuming you have a collection named 'Nutrition' in F.0000000000000000irestore
+    // and each document contains a 'Calories' field
+    try {
+      QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+          .collection('fitnessData')
+          .where('userId',
+              isEqualTo: currentUser!.uid) // Adjust this query accordingly
+          .get();
+
+      if (querySnapshot.docs.isNotEmpty) {
+        // Use the first document for simplicity, you may adjust this based on your data model
+        var data = querySnapshot.docs.first.data() as Map<String, dynamic>;
+        setState(() {
+          switch (goal) {
+            case 'MaintainWeight':
+              base = data['MaintainWeightCalory'] ??
+                  2500; // Set the base calorie for MaintainWeight
+              break;
+            case 'MildWeightLoss':
+              base = data['MildWeightLossCalory'] ??
+                  2500; // Set the base calorie for MildWeightLoss
+              break;
+            case 'WeightLoss':
+              base = data['WeightLossCalory'] ??
+                  2500; // Set the base calorie for WeightLoss
+              break;
+            case 'ExtremeWeightGain':
+              base = data['ExtremeWeightGainCalory'] ??
+                  2500; // Set the base calorie for ExtremeWeightGain
+              break;
+            case 'WeightGain':
+              base = data['WeightGainCalory'] ??
+                  2500; // Set the base calorie for ExtremeWeightGain
+              break;
+            // Add more cases for other goals if needed
+            // default:
+            //   base = 2500; // Default base calorie
           } // Default to 0 if 'Calories' is null
         });
       } else {

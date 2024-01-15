@@ -3,7 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:module_1/navigation.dart';
+
+import 'package:module_1/navigation_menu.dart';
 
 class SignUpScreen extends StatelessWidget {
   @override
@@ -80,7 +81,7 @@ class SignUpScreen extends StatelessWidget {
                               'dateCreated': DateTime.now(),
                               "userId": userId!.uid,
                             });
-                            Get.to(() => const Navigation());
+                            Get.to(() => const NavigationMenu());
                           }).onError((error, stackTrace) {
                             // print("Error ${error.toString()}");
                           });
