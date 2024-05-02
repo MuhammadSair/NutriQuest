@@ -1,6 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:iconsax/iconsax.dart';
 import 'package:module_1/Screens/Logins/login_screen%20.dart';
+import 'package:module_1/Screens/base_finder/main.dart';
 
 import 'package:module_1/Screens/profile/color_extension.dart';
 import 'package:module_1/Screens/profile/roundbutton.dart';
@@ -18,6 +20,25 @@ class ProfileView extends StatefulWidget {
 }
 
 class _ProfileViewState extends State<ProfileView> {
+  String age = '';
+  String height = '';
+  String weight = '';
+
+  @override
+  void initState() {
+    super.initState();
+    loadPreferences();
+  }
+
+  void loadPreferences() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      age = prefs.getString("age") ?? '';
+      height = prefs.getString("height") ?? '';
+      weight = prefs.getString("weight") ?? '';
+    });
+  }
+
   bool positive = false;
   FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
@@ -37,8 +58,6 @@ class _ProfileViewState extends State<ProfileView> {
   ];
 
   List otherArr = [
-    {"image": "assets/img/p_contact.png", "name": "Contact Us", "tag": "5"},
-    {"image": "assets/img/p_privacy.png", "name": "Privacy Policy", "tag": "6"},
     {"image": "assets/img/p_setting.png", "name": "Logout", "tag": "7"},
   ];
   @override
@@ -54,25 +73,25 @@ class _ProfileViewState extends State<ProfileView> {
           style: TextStyle(
               color: Colors.black, fontSize: 16, fontWeight: FontWeight.w700),
         ),
-        actions: [
-          InkWell(
-            onTap: () {},
-            child: Container(
-              margin: const EdgeInsets.all(8),
-              height: 40,
-              width: 40,
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                  color: Colors.grey, borderRadius: BorderRadius.circular(10)),
-              child: Image.asset(
-                "assets/img/more_btn.png",
-                width: 15,
-                height: 15,
-                fit: BoxFit.contain,
-              ),
-            ),
-          )
-        ],
+        // actions: [
+        //   InkWell(
+        //     onTap: () {},
+        //     child: Container(
+        //       margin: const EdgeInsets.all(8),
+        //       height: 40,
+        //       width: 40,
+        //       alignment: Alignment.center,
+        //       decoration: BoxDecoration(
+        //           color: Colors.grey, borderRadius: BorderRadius.circular(10)),
+        //       child: Image.asset(
+        //         "assets/img/more_btn.png",
+        //         width: 15,
+        //         height: 15,
+        //         fit: BoxFit.contain,
+        //       ),
+        //     ),
+        //   )
+        // ],
       ),
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
@@ -85,12 +104,15 @@ class _ProfileViewState extends State<ProfileView> {
                 children: [
                   ClipRRect(
                     borderRadius: BorderRadius.circular(30),
-                    child: Image.asset(
-                      "assets/img/u2.png",
-                      width: 50,
-                      height: 50,
-                      fit: BoxFit.cover,
+                    child: Icon(
+                      Iconsax.profile,
                     ),
+                    // Image.asset(
+                    //   "assets/img/u2.png",
+                    //   width: 50,
+                    //   height: 50,
+                    //   fit: BoxFit.cover,
+                    // ),
                   ),
                   const SizedBox(
                     width: 15,
@@ -100,7 +122,7 @@ class _ProfileViewState extends State<ProfileView> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "Stefani Wong",
+                          "Your Profile",
                           style: TextStyle(
                             color: Colors.black,
                             fontSize: 14,
@@ -126,12 +148,12 @@ class _ProfileViewState extends State<ProfileView> {
                       fontSize: 12,
                       fontWeight: FontWeight.w400,
                       onPressed: () {
-                        // Navigator.push(
-                        //   context,
-                        //   MaterialPageRoute(
-                        //     builder: (context) => const ActivityTrackerView(),
-                        //   ),
-                        // );
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => BaseFinder(),
+                          ),
+                        );
                       },
                     ),
                   )
@@ -140,11 +162,11 @@ class _ProfileViewState extends State<ProfileView> {
               const SizedBox(
                 height: 15,
               ),
-              const Row(
+              Row(
                 children: [
                   Expanded(
                     child: TitleSubtitleCell(
-                      title: "180cm",
+                      title: "${height}cm",
                       subtitle: "Height",
                     ),
                   ),
@@ -153,7 +175,7 @@ class _ProfileViewState extends State<ProfileView> {
                   ),
                   Expanded(
                     child: TitleSubtitleCell(
-                      title: "65kg",
+                      title: "${weight}kg",
                       subtitle: "Weight",
                     ),
                   ),
@@ -162,7 +184,7 @@ class _ProfileViewState extends State<ProfileView> {
                   ),
                   Expanded(
                     child: TitleSubtitleCell(
-                      title: "22yo",
+                      title: "${age}yo",
                       subtitle: "Age",
                     ),
                   ),
@@ -194,19 +216,19 @@ class _ProfileViewState extends State<ProfileView> {
                     const SizedBox(
                       height: 8,
                     ),
-                    ListView.builder(
-                      physics: const NeverScrollableScrollPhysics(),
-                      shrinkWrap: true,
-                      itemCount: accountArr.length,
-                      itemBuilder: (context, index) {
-                        var iObj = accountArr[index] as Map? ?? {};
-                        return SettingRow(
-                          icon: iObj["image"].toString(),
-                          title: iObj["name"].toString(),
-                          onPressed: () {},
-                        );
-                      },
-                    )
+                    // ListView.builder(
+                    //   physics: const NeverScrollableScrollPhysics(),
+                    //   shrinkWrap: true,
+                    //   itemCount: accountArr.length,
+                    //   itemBuilder: (context, index) {
+                    //     var iObj = accountArr[index] as Map? ?? {};
+                    //     return SettingRow(
+                    //       icon: iObj["image"].toString(),
+                    //       title: iObj["name"].toString(),
+                    //       onPressed: () {},
+                    //     );
+                    //   },
+                    // )
                   ],
                 ),
               ),

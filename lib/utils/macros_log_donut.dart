@@ -6,96 +6,36 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:module_1/utils/base.dart';
 
-class FatsDonutChart extends StatefulWidget {
-  const FatsDonutChart({Key? key}) : super(key: key);
+class LogsDonut extends StatefulWidget {
+  const LogsDonut({Key? key}) : super(key: key);
 
   @override
-  _FatsDonutChartState createState() => _FatsDonutChartState();
+  _LogsDonutState createState() => _LogsDonutState();
 }
 
-class _FatsDonutChartState extends State<FatsDonutChart> {
+class _LogsDonutState extends State<LogsDonut> {
   User? currentUser = FirebaseAuth.instance.currentUser;
   CalorieDataProvider calorieDataProvider = CalorieDataProvider();
   late num baseValue = 0.0;
+  Banner? _bannerAd;
+
   @override
   void initState() {
     super.initState();
     _initializeData();
   }
 
+// TODO: Load a banner ad
+
   Future<void> _initializeData() async {
-    await _fetchData();
-    await _fetchfatData();
+    await _fetchCarbsData();
   }
 
-  Future<void> _fetchData() async {
-    try {
-      await calorieDataProvider.fetchData();
-
-      // Check if the widget is still mounted before calling setState
-      if (mounted) {
-        setState(() {
-          baseValue = calorieDataProvider.getBaseValue();
-          baseValue *= 0.20;
-          if (kDebugMode) {
-            print("Base value of carbs is $baseValue");
-          }
-        });
-      }
-    } catch (error) {
-      print('Error fetching data: $error');
-    }
-  }
-
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   // Fetch calorie data from Firestore when the widget is initialized
-  //   _fetchfatData();
-  //   calorieDataProvider.fetchData().then((value) => setState(() {
-  //         baseValue = calorieDataProvider.getBaseValue();
-  //         baseValue *= 0.20;
-  //         // baseValue != baseValue;
-  //         if (kDebugMode) {
-  //           print("Base value of carbs is $baseValue");
-  //         }
-  //       }));
-  // }
-
-  // @override
-  // void didChangeDependencies() {
-  //   super.didChangeDependencies();
-  //   // Fetch calorie data from Firestore when the widget dependencies change
-  //   _fetchData();
-  //   _fetchfatData();
-  // }
-
-  // Future<void> _fetchData() async {
-  //   await calorieDataProvider.fetchData();
-  //   setState(() {
-  //     baseValue = calorieDataProvider.getBaseValue();
-  //     baseValue *= 0.20;
-  //     if (kDebugMode) {
-  //       print("Base value of carbs is $baseValue");
-  //     }
-  //   });
-  // }
-
-  // num getBaseValue() {
-  //   return calorieDataProvider.getBaseValue();
-  // }
-
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   // Fetch calorie data from Firestore when the widget is initialized
-  //   _fetchfatData();
-  // }
-
-  // FoodLog foodLogInstance = FoodLog();
-  late double foodfats = 0;
-  // var baseValue = 83;
-  Future<void> _fetchfatData() async {
+  late double sugar = 0;
+  late double fiber = 0;
+  late double saturatedfats = 0;
+  // late var baseValue = 0.0;
+  Future<void> _fetchCarbsData() async {
     // Assuming you have a collection named 'Nutrition' in Firestore
     // and each document contains a 'Calories' field
     try {
@@ -109,10 +49,13 @@ class _FatsDonutChartState extends State<FatsDonutChart> {
         // Use the first document for simplicity, you may adjust this based on your data model
         var data = querySnapshot.docs.first.data() as Map<String, dynamic>;
         setState(() {
-          foodfats = data['Fats'] ?? 0;
-          if (kDebugMode) {
-            print(foodfats);
-          } // Default to 0 if 'Calories' is null
+          // foodCarbs = data['Carbs'] ?? 0;
+          sugar = data['Sugar'] ?? 0;
+          fiber = data['Fiber'] ?? 0;
+          saturatedfats = data['SaturatedFats'] ?? 0;
+          // if (kDebugMode) {
+          //   print(foodCarbs);
+          // } // Default to 0 if 'Calories' is null
         });
       } else {
         // Handle case where no data is found
@@ -124,8 +67,20 @@ class _FatsDonutChartState extends State<FatsDonutChart> {
     }
   }
 
+  Widget _buildColorDot(Color color) {
+    return Container(
+      width: 16,
+      height: 16,
+      decoration: BoxDecoration(
+        color: color,
+        shape: BoxShape.circle,
+      ),
+    );
+  }
+
   Widget build(BuildContext context) {
     return Card(
+      // color: Colors.blue,
       elevation: 5, // Adjust elevation as needed
       margin: const EdgeInsets.all(16.0), // Adjust margin as needed
       child: SizedBox(
@@ -138,15 +93,45 @@ class _FatsDonutChartState extends State<FatsDonutChart> {
                   height: 10.0,
                   width: 20.0,
                 ),
-                Text(
-                  "Fats",
-                  style: TextStyle(fontWeight: FontWeight.bold),
+                Row(
+                  children: [
+                    _buildColorDot(Colors.blue),
+                    const SizedBox(width: 8),
+                    Text(
+                      "Sugar",
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                  ],
                 ),
                 SizedBox(
                   height: 5,
                 ),
-                // Text("Base - Total="),
-                // Icon(Icons.emoji_food_beverage_outlined)
+                Row(
+                  children: [
+                    _buildColorDot(Colors.red),
+                    const SizedBox(width: 8),
+                    Text(
+                      "Saturated Fats",
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 5,
+                ),
+                Row(
+                  children: [
+                    _buildColorDot(Colors.green),
+                    const SizedBox(width: 8),
+                    Text(
+                      "Fiber",
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 5,
+                ),
               ],
             ),
             PieChart(
@@ -157,15 +142,21 @@ class _FatsDonutChartState extends State<FatsDonutChart> {
                 // Adjust radius as needed
                 sections: [
                   PieChartSectionData(
-                      value: foodfats,
-                      color: const Color.fromARGB(255, 255, 230, 0),
+                      value: sugar,
+                      color: Colors.blue,
                       radius: 10,
                       showTitle: false
                       // Adjust radius as needed
                       ),
                   PieChartSectionData(
-                    value: (baseValue.toDouble() - foodfats),
-                    color: Colors.white,
+                    value: fiber,
+                    color: Colors.pink,
+                    radius: 10, // Adjust radius as needed
+                    showTitle: false,
+                  ),
+                  PieChartSectionData(
+                    value: saturatedfats,
+                    color: Colors.green,
                     radius: 10, // Adjust radius as needed
                     showTitle: false,
                   ),
@@ -197,21 +188,23 @@ class _FatsDonutChartState extends State<FatsDonutChart> {
                           height: 20,
                         ),
                         Center(
+                            // child: Text(
+                            //   "${NumberFormat('#,###').format(baseValue - foodCarbs.toInt())} g",
+                            //   textAlign: TextAlign.center,
+                            //   style: TextStyle(
+                            //       fontSize: 15,
+                            //       fontWeight: FontWeight
+                            //           .bold), // Adjust fontSize as needed
+                            // ),
+                            ),
+                        Center(
                           child: Text(
-                            "${NumberFormat('#,###').format(baseValue - foodfats.toInt())} g",
+                            "Consumed",
                             textAlign: TextAlign.center,
                             style: TextStyle(
                                 fontSize: 15,
                                 fontWeight: FontWeight
                                     .bold), // Adjust fontSize as needed
-                          ),
-                        ),
-                        Center(
-                          child: Text(
-                            baseValue - foodfats > 0 ? "Remainings" : "Over",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                                fontSize: 12), // Adjust fontSize as needed
                           ),
                         ),
                       ],

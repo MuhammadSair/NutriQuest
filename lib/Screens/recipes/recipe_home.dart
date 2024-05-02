@@ -35,7 +35,7 @@ class _RecipeHomeState extends State<RecipeHome> {
     'images/6c.jpg',
   ];
   List texts = [
-    "The application allows the you to create an account and set your profile.        The application allows the you to enter your daily cooking activities that you wish to practice or learn.         The application gives the stats of nutrients consumed by you today .        The application gives recipes for meals chosen by you.        The application allows the you to select your day meals(Breakfast, Lunch and Supper).",
+    "The Section allows the you to select your day meals(Breakfast, Lunch and Supper).",
     " "
   ];
   int indexx = 0;

@@ -33,6 +33,9 @@ class _SearchScreenState extends State<SearchScreen> {
   dynamic protein;
   dynamic fats;
   dynamic carbohydrates;
+  dynamic sugar;
+  dynamic fiber;
+  dynamic saturatedfats;
 
   @override
   Widget build(BuildContext context) {
@@ -80,6 +83,9 @@ class _SearchScreenState extends State<SearchScreen> {
                       protein = foodItem.proteinG;
                       carbohydrates = foodItem.carbohydratesTotalG;
                       fats = foodItem.fatTotalG;
+                      sugar = foodItem.sugarG;
+                      fiber = foodItem.fiberG;
+                      saturatedfats = foodItem.fatSaturatedG;
 
                       return ListTile(
                           title: Text(foodItem.name),
@@ -105,23 +111,23 @@ class _SearchScreenState extends State<SearchScreen> {
     );
   }
 
-  Future<void> _updateSharedPreferences(Map<String, dynamic> data) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setInt('Calories', data['Calories'] ?? 0);
-    prefs.setInt('Proteins', data['Proteins'] ?? 0);
-    prefs.setInt('Fats', data['Fats'] ?? 0);
-    prefs.setInt('Carbs', data['Carbs'] ?? 0);
-  }
+  // Future<void> _updateSharedPreferences(Map<String, dynamic> data) async {
+  //   SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   prefs.setInt('Calories', data['Calories'] ?? 0);
+  //   prefs.setInt('Proteins', data['Proteins'] ?? 0);
+  //   prefs.setInt('Fats', data['Fats'] ?? 0);
+  //   prefs.setInt('Carbs', data['Carbs'] ?? 0);
+  // }
 
-  static Future<Map<String, dynamic>> _getSharedPreferences() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    return {
-      'Calories': prefs.getInt('Calories') ?? 0,
-      'Proteins': prefs.getInt('Proteins') ?? 0,
-      'Fats': prefs.getInt('Fats') ?? 0,
-      'Carbs': prefs.getInt('Carbs') ?? 0,
-    };
-  }
+  // static Future<Map<String, dynamic>> _getSharedPreferences() async {
+  //   SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   return {
+  //     'Calories': prefs.getInt('Calories') ?? 0,
+  //     'Proteins': prefs.getInt('Proteins') ?? 0,
+  //     'Fats': prefs.getInt('Fats') ?? 0,
+  //     'Carbs': prefs.getInt('Carbs') ?? 0,
+  //   };
+  // }
 
   Future<void> _updateFirestore() async {
     // Get the reference to the document
@@ -144,6 +150,9 @@ class _SearchScreenState extends State<SearchScreen> {
         'Proteins': 0,
         'Fats': 0,
         'Carbs': 0,
+        'Sugar': 0,
+        'Fiber': 0,
+        'SaturatedFats': 0,
         'userId': currentUser!.uid,
       };
     }
@@ -154,7 +163,10 @@ class _SearchScreenState extends State<SearchScreen> {
     existingData['Proteins'] = (existingData['Proteins'] ?? 0) + (protein ?? 0);
     existingData['Fats'] = (existingData['Fats'] ?? 0) + (fats ?? 0);
     existingData['Carbs'] = (existingData['Carbs'] ?? 0) + (carbohydrates ?? 0);
-
+    existingData['Sugar'] = (existingData['Sugar'] ?? 0) + (sugar ?? 0);
+    existingData['Fiber'] = (existingData['Fiber'] ?? 0) + (fiber ?? 0);
+    existingData['SaturatedFats'] =
+        (existingData['SaturatedFats'] ?? 0) + (saturatedfats ?? 0);
     // Set the updated data back to Firestore
     await nutritionDocRef.set(existingData);
     // await _updateSharedPreferences(existingData);
@@ -164,6 +176,9 @@ class _SearchScreenState extends State<SearchScreen> {
         protein = existingData['Proteins'];
         fats = existingData['Fats'];
         carbohydrates = existingData['Carbs'];
+        sugar = existingData['Sugar'];
+        sugar = existingData['SaturatedFats'];
+        sugar = existingData['Fiber'];
       });
     } else
       (error) {

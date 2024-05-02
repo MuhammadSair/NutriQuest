@@ -1,15 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-// import 'package:firebase_core/firebase_core.dart';
-
 import 'api_service.dart';
 import 'modal.dart';
 
 class FitnessDataProcessor {
   final ApiService apiService = ApiService();
-  User? currentUser = FirebaseAuth.instance.currentUser;
+  User? userId = FirebaseAuth.instance.currentUser;
   // SharedPreferences uidpref=await SharedPreferences.getInstance();
   Future<void> processAndStoreInFirestore({
     required String? gender,
@@ -43,7 +40,7 @@ class FitnessDataProcessor {
 
       FirebaseFirestore.instance
           .collection('fitnessData')
-          .doc(currentUser?.uid)
+          .doc(userId?.uid)
           .set({
         'BMR': bmr,
         'MaintainWeightCalory': maintainWeightCalory,
@@ -53,19 +50,10 @@ class FitnessDataProcessor {
         'MildWeightGainCalory': mildWeightGainCalory,
         'WeightGainCalory': weightGainCalory,
         'ExtremeWeightGainCalory': extremeWeightGainCalory,
+        'userId': userId!.uid,
         // Add other fields as needed
       });
-      // SharedPreferences prefs = await SharedPreferences.getInstance();
-      // prefs.setDouble('BMR', bmr as double);
-      // prefs.setDouble('MaintainWeightCalory', maintainWeightCalory as double);
-      // prefs.setDouble('MildWeightLossCalory', mildWeightLossCalory as double);
-      // prefs.setDouble('WeightLossCalory', weightLossCalory as double);
-      // prefs.setDouble(
-      //     'ExtremeWeightLossCalory', extremeWeightLossCalory as double);
-      // prefs.setDouble('MildWeightGainCalory', mildWeightGainCalory as double);
-      // prefs.setDouble('WeightGainCalory', weightGainCalory as double);
-      // prefs.setDouble(
-      //     'ExtremeWeightGainCalory', extremeWeightGainCalory as double);
+
       if (kDebugMode) {
         print('Data stored in Firestore successfully!');
       }
@@ -76,6 +64,26 @@ class FitnessDataProcessor {
     }
   }
 
+  Future<void> goal(String goal) async {
+    FirebaseFirestore.instance.collection('goal').doc(userId?.uid).set({
+      'goal': goal,
+      'userId': userId!.uid,
+      // Add other fields as needed
+    });
+  }
+}
+// SharedPreferences prefs = await SharedPreferences.getInstance();
+      // prefs.setDouble('BMR', bmr as double);
+      // prefs.setDouble('MaintainWeightCalory', maintainWeightCalory as double);
+      // prefs.setDouble('MildWeightLossCalory', mildWeightLossCalory as double);
+      // prefs.setDouble('WeightLossCalory', weightLossCalory as double);
+      // prefs.setDouble(
+      //     'ExtremeWeightLossCalory', extremeWeightLossCalory as double);
+      // prefs.setDouble('MildWeightGainCalory', mildWeightGainCalory as double);
+      // prefs.setDouble('WeightGainCalory', weightGainCalory as double);
+      // prefs.setDouble(
+      //     'ExtremeWeightGainCalory', extremeWeightGainCalory as double);
+      
   // Future<Map<String, dynamic>> getPrefs() async {
   //   SharedPreferences prefs = await SharedPreferences.getInstance();
   //   return {
@@ -90,11 +98,3 @@ class FitnessDataProcessor {
   //     'goal': prefs.getString('goal'),
   //   };
   // }
-
-  Future<void> goal(String goal) async {
-    FirebaseFirestore.instance.collection('goal').doc(currentUser?.uid).set({
-      'goal': goal,
-      // Add other fields as needed
-    });
-  }
-}

@@ -4,6 +4,8 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:module_1/Screens/recipes/consent/colors.dart';
+import 'package:module_1/utils/base.dart';
 
 class ProteinsDonutChart extends StatefulWidget {
   const ProteinsDonutChart({Key? key}) : super(key: key);
@@ -14,16 +16,47 @@ class ProteinsDonutChart extends StatefulWidget {
 
 class _ProteinsDonutChartState extends State<ProteinsDonutChart> {
   User? currentUser = FirebaseAuth.instance.currentUser;
+  late num baseValue = 0.0;
+  CalorieDataProvider calorieDataProvider = CalorieDataProvider();
   @override
   void initState() {
     super.initState();
-    // Fetch calorie data from Firestore when the widget is initialized
-    _fetchProteinData();
+    _initializeData();
   }
+
+  Future<void> _initializeData() async {
+    await _fetchData();
+    await _fetchProteinData();
+  }
+
+  Future<void> _fetchData() async {
+    try {
+      await calorieDataProvider.fetchData();
+
+      // Check if the widget is still mounted before calling setState
+      if (mounted) {
+        setState(() {
+          baseValue = calorieDataProvider.getBaseValue();
+          baseValue *= 0.25;
+          if (kDebugMode) {
+            print("Base value of carbs is $baseValue");
+          }
+        });
+      }
+    } catch (error) {
+      print('Error fetching data: $error');
+    }
+  }
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   // Fetch calorie data from Firestore when the widget is initialized
+  //   _fetchProteinData();
+  // }
 
   // FoodLog foodLogInstance = FoodLog();
   late double foodProteins = 0;
-  var baseProtein = 125;
+  // var baseValue = 125;
   Future<void> _fetchProteinData() async {
     // Assuming you have a collection named 'Nutrition' in Firestore
     // and each document contains a 'Calories' field
@@ -67,7 +100,14 @@ class _ProteinsDonutChartState extends State<ProteinsDonutChart> {
           children: [
             Column(
               children: [
-                Text("Current Proteins="),
+                SizedBox(
+                  height: 10.0,
+                  width: 20.0,
+                ),
+                Text(
+                  "Proteins",
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
                 SizedBox(
                   height: 5,
                 ),
@@ -84,14 +124,14 @@ class _ProteinsDonutChartState extends State<ProteinsDonutChart> {
                 sections: [
                   PieChartSectionData(
                       value: foodProteins,
-                      color: Colors.blueAccent,
+                      color: const Color.fromARGB(255, 255, 230, 0),
                       radius: 10,
                       showTitle: false
                       // Adjust radius as needed
                       ),
                   PieChartSectionData(
-                    value: (baseProtein.toDouble() - foodProteins),
-                    color: Colors.grey,
+                    value: (baseValue.toDouble() - foodProteins),
+                    color: Colors.white,
                     radius: 10, // Adjust radius as needed
                     showTitle: false,
                   ),
@@ -110,7 +150,7 @@ class _ProteinsDonutChartState extends State<ProteinsDonutChart> {
                       shape: BoxShape.circle,
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.grey.shade200,
+                          color: Colors.transparent,
                           blurRadius: 5.0, // Adjust blurRadius as needed
                           spreadRadius: 5.0, // Adjust spreadRadius as needed
                           offset: const Offset(2.0, 2.0),
@@ -124,7 +164,7 @@ class _ProteinsDonutChartState extends State<ProteinsDonutChart> {
                         ),
                         Center(
                           child: Text(
-                            "${NumberFormat('#,###').format(baseProtein - foodProteins.toInt())} g",
+                            "${NumberFormat('#,###').format(baseValue - foodProteins.toInt())} g",
                             textAlign: TextAlign.center,
                             style: TextStyle(
                                 fontSize: 15,
@@ -134,9 +174,7 @@ class _ProteinsDonutChartState extends State<ProteinsDonutChart> {
                         ),
                         Center(
                           child: Text(
-                            baseProtein - foodProteins > 0
-                                ? 'Remaining'
-                                : 'Over',
+                            baseValue - foodProteins > 0 ? 'Remaining' : 'Over',
                             textAlign: TextAlign.center,
                             style: TextStyle(
                                 fontSize: 12), // Adjust fontSize as needed

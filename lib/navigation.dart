@@ -25,18 +25,18 @@ class _NavigationState extends State<Navigation> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          setState(() {
-            index = 2;
-          });
-        },
-        child: Icon(
-          Icons.search,
-          // color: index == 2 ? maincolor : Colors.grey,
-        ),
-        backgroundColor: Colors.blue,
-      ),
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: () {
+      //     setState(() {
+      //       index = 2;
+      //     });
+      //   },
+      //   child: Icon(
+      //     Icons.search,
+      //     // color: index == 2 ? maincolor : Colors.grey,
+      //   ),
+      //   backgroundColor: Colors.blue,
+      // ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: BottomAppBar(
         shape: CircularNotchedRectangle(),

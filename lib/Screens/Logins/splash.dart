@@ -1,7 +1,9 @@
 import 'package:easy_splash_screen/easy_splash_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:module_1/Screens/Logins/login_screen%20.dart';
+import 'package:module_1/navigation_menu.dart';
 // import 'package:module_1/Screens/home_screen.dart';
 
 // import 'package:shared_preferences/shared_preferences.dart';
@@ -37,7 +39,7 @@ class _SplashPageState extends State<SplashPage> {
   //   var status = prefs.getBool('isLoggedIn') ?? false;
   //   return status;
   // }
-
+  User? currentUser = FirebaseAuth.instance.currentUser;
   @override
   Widget build(BuildContext context) {
     return EasySplashScreen(
@@ -54,7 +56,7 @@ class _SplashPageState extends State<SplashPage> {
       // backgroundColor: Colors.black,
       showLoader: true,
       loaderColor: Colors.blueAccent,
-      navigator: LoginScreen(),
+      navigator: currentUser != null ? NavigationMenu() : LoginScreen(),
       durationInSeconds: 10,
     );
   }

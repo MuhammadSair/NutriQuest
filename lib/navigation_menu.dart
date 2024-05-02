@@ -6,6 +6,7 @@ import 'package:module_1/Screens/home_screen.dart';
 import 'package:module_1/Screens/macros_log.dart';
 import 'package:module_1/Screens/profile/profile.dart';
 import 'package:module_1/Screens/recipes/recipe_home.dart';
+import 'package:module_1/Screens/search_screen.dart';
 
 import 'package:module_1/themes/helper_functions.dart';
 import 'package:module_1/utils/constants/colors.dart';
@@ -19,12 +20,14 @@ class NavigationMenu extends StatelessWidget {
     final darkMode = THelperFunctions.isDarkMode(context);
     return Scaffold(
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          Get.to(() => SearchScreen());
+        },
         child: Icon(
           Icons.search,
           // color: index == 2 ? maincolor : Colors.grey,
         ),
-        backgroundColor: Colors.yellow,
+        backgroundColor: Colors.blue,
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: Obx(

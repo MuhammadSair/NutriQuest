@@ -37,22 +37,29 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              "Results",
-              textAlign: TextAlign.left,
-              style: Theme.of(context)
-                  .textTheme
-                  .headlineMedium!
-                  .apply(color: Colors.black),
+            SizedBox(
+              height: 20.0,
+            ),
+            Center(
+              child: Text(
+                "Calories",
+                textAlign: TextAlign.center,
+                style: Theme.of(context)
+                    .textTheme
+                    .headlineMedium!
+                    .apply(color: Colors.black),
+              ),
             ),
             CalorieDonutChart(),
-            Text(
-              "Macros",
-              textAlign: TextAlign.left,
-              style: Theme.of(context)
-                  .textTheme
-                  .headlineMedium!
-                  .apply(color: Colors.black),
+            Center(
+              child: Text(
+                "Macros",
+                textAlign: TextAlign.center,
+                style: Theme.of(context)
+                    .textTheme
+                    .headlineMedium!
+                    .apply(color: Colors.black),
+              ),
             ),
             CarouselSlider(
               items: [
@@ -70,17 +77,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 autoPlayAnimationDuration: Duration(milliseconds: 800),
                 viewportFraction: 0.8,
               ),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => BaseFinder(),
-                  ),
-                );
-              },
-              child: Text("BaseFinder"),
             ),
           ],
         ),

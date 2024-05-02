@@ -6,8 +6,9 @@ import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:module_1/Screens/Logins/signup_screen.dart';
 import 'package:module_1/Screens/base_finder/main.dart';
-
 import 'package:module_1/navigation_menu.dart';
+
+// import 'package:module_1/navigation_menu.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -109,7 +110,7 @@ class LoginScreen extends StatelessWidget {
                                 await SharedPreferences.getInstance();
                             prefs.setBool("isLoggedIn", true);
 
-                            Get.offAll(() =>BaseFinder() );
+                            Get.offAll(() => NavigationMenu());
                           }).onError((error, stackTrace) {
                             // print("Error ${error.toString()}");
                             // Navigator.of(context).pop();
